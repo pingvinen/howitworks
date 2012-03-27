@@ -1,0 +1,12 @@
+
+Documentation building procedure:
+
+1) Make object model containing namespaces/types etc using reflection on supplied DLLs
+
+2) Augment the model with data from XML documentation files
+
+3) "Parse" HTML files into a "Page" object model
+
+4) "Parse" master HTML file into model
+
+5) Generate pages in output folder

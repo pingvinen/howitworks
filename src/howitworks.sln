@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "reflectiontester", "reflectiontester\reflectiontester.csproj", "{D43E727A-A9DC-4925-85FD-CF469891C736}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libhowitworks", "libhowitworks\libhowitworks.csproj", "{3D59CB49-BDB7-4670-9B69-B5EE0CE193A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D59CB49-BDB7-4670-9B69-B5EE0CE193A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D59CB49-BDB7-4670-9B69-B5EE0CE193A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D59CB49-BDB7-4670-9B69-B5EE0CE193A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D59CB49-BDB7-4670-9B69-B5EE0CE193A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D43E727A-A9DC-4925-85FD-CF469891C736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D43E727A-A9DC-4925-85FD-CF469891C736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D43E727A-A9DC-4925-85FD-CF469891C736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D43E727A-A9DC-4925-85FD-CF469891C736}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = reflectiontester\reflectiontester.csproj
+	EndGlobalSection
+EndGlobal
