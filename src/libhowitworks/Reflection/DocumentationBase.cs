@@ -78,6 +78,11 @@ namespace HowItWorks.Reflection
 		/// </typeparam>
 		protected void PopulateCollection<TDocumentation, TReflection>(Collection<TDocumentation> collection, Func<T, TReflection[]> reflectionMethod) where TDocumentation : DocumentationBase<TReflection>, new() where TReflection : class
 		{
+			this.PopulateCollection<TDocumentation, TReflection>(collection, reflectionMethod, y => true);
+		}
+		
+		protected void PopulateCollection<TDocumentation, TReflection>(Collection<TDocumentation> collection, Func<T, TReflection[]> reflectionMethod, Predicate<TReflection> elementFilter) where TDocumentation : DocumentationBase<TReflection>, new() where TReflection : class
+		{
 			collection.Clear();
 			
 			TReflection[] infos = reflectionMethod(this.WrappedElement);
@@ -85,10 +90,13 @@ namespace HowItWorks.Reflection
 			TDocumentation tmp;
 			foreach (TReflection cur in infos)
 			{
-				tmp = new TDocumentation();
-				tmp.Populate(cur);
-				
-				collection.Add(tmp);
+				if (elementFilter(cur))
+				{
+					tmp = new TDocumentation();
+					tmp.Populate(cur);
+					
+					collection.Add(tmp);
+				}
 			}
 		}
 	}
