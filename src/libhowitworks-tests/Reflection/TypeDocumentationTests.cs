@@ -58,5 +58,22 @@ public class TypeDocumentationTests : TestFixtureBase
 	public void Populate_MultipleConstructors()
 	{
 	}
+	
+	[Test]
+	public void Populate_Methods()
+	{
+		Type t = TypeHelper.GetType(this.karma);
+		
+		TypeDocumentation doc = new TypeDocumentation();
+		doc.Populate(t);
+		
+		Assert.AreEqual(1, doc.Methods.Count, "Number of methods is wrong");
+		MethodDocumentation method = doc.Methods[0];
+		
+		Assert.IsTrue(method.WrappedElement.IsPublic, "The wrapped element should be a public method");
+		Assert.AreEqual(1, method.Parameters.Count, "The method should take 1 parameter");
+		
+		Assert.AreEqual("DidSomething", method.Parameters[0].WrappedElement.Name, "Name of the method is wrong");
+	}
 	#endregion
 }

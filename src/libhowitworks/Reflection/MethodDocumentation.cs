@@ -13,6 +13,31 @@ namespace HowItWorks.Reflection
 		/// </summary>
 		public MethodDocumentation() : base()
 		{
+			this.Parameters = new ParameterDocumentationCollection();
+		}
+		
+		/// <summary>
+		/// Get/set full set of parameters
+		/// </summary>
+		public ParameterDocumentationCollection Parameters { get; set; }
+		
+		/// <summary>
+		/// Worker method for <see cref="Populate"/>
+		/// </summary>
+		protected override void PopulateWorker()
+		{
+			this.Parameters.Clear();
+			
+			ParameterInfo[] infos = base.WrappedElement.GetParameters();
+			
+			ParameterDocumentation tmp;
+			foreach (ParameterInfo cur in infos)
+			{
+				tmp = new ParameterDocumentation();
+				tmp.Populate(cur);
+				
+				this.Parameters.Add(tmp);
+			}
 		}
 	}
 }

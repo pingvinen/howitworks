@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 
 namespace HowItWorks.Reflection
 {
@@ -57,6 +58,38 @@ namespace HowItWorks.Reflection
 		protected virtual void PopulateWorker()
 		{
 			// do nothing
+		}
+		
+		/// <summary>
+		/// Populate a collection of documentations based on
+		/// a call to a reflection method.
+		/// </summary>
+		/// <param name="collection">
+		/// The collection to populate
+		/// </param>
+		/// <param name="reflectionMethod">
+		/// Reflection method.
+		/// </param>
+		/// <typeparam name="TDocumentation">
+		/// The documentation element type
+		/// </typeparam>
+		/// <typeparam name="TReflection">
+		/// The reflection type returned from the reflection method
+		/// </typeparam>
+		protected void PopulateCollection<TDocumentation, TReflection>(Collection<TDocumentation> collection, Func<T, TReflection[]> reflectionMethod) where TDocumentation : DocumentationBase<TReflection>, new() where TReflection : class
+		{
+			collection.Clear();
+			
+			TReflection[] infos = reflectionMethod(this.WrappedElement);
+			
+			TDocumentation tmp;
+			foreach (TReflection cur in infos)
+			{
+				tmp = new TDocumentation();
+				tmp.Populate(cur);
+				
+				collection.Add(tmp);
+			}
 		}
 	}
 }

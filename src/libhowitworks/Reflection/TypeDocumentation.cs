@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Linq;
 
 namespace HowItWorks.Reflection
 {
@@ -62,30 +63,9 @@ namespace HowItWorks.Reflection
 		/// </summary>
 		protected override void PopulateWorker()
 		{
-			this.PopulateConstructors();
-			
-			// update this.Methods
-			// update this.Properties
-		}
-		
-		/// <summary>
-		/// Populates <see cref="Constructors"/>
-		/// </summary>
-		private void PopulateConstructors()
-		{
-			this.Constructors.Clear();
-			
-			ConstructorInfo[] infos = base.WrappedElement.GetConstructors();
-			
-			ConstructorDocumentation tmp;
-			
-			foreach (ConstructorInfo cur in infos)
-			{
-				tmp = new ConstructorDocumentation();
-				tmp.Populate(cur);
-				
-				this.Constructors.Add(tmp);
-			}
+			base.PopulateCollection<ConstructorDocumentation, ConstructorInfo>(this.Constructors, y => y.GetConstructors());
+			base.PopulateCollection<MethodDocumentation, MethodInfo>(this.Methods, y => y.GetMethods());
+			base.PopulateCollection<PropertyDocumentation, PropertyInfo>(this.Properties, y => y.GetProperties());
 		}
 	}
 }
