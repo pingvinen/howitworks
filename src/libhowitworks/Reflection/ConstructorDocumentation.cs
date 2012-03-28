@@ -3,12 +3,10 @@ using System.Reflection;
 
 namespace HowItWorks.Reflection
 {
-	public class ConstructorDocumentation : DocumentationBase
+	public class ConstructorDocumentation : DocumentationBase<ConstructorInfo>
 	{
 		public ConstructorDocumentation() : base()
 		{
 		}
-		
-		public ConstructorInfo ConstructorInfo { get; set; }
 	}
 }
