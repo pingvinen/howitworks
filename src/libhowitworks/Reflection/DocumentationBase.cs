@@ -81,7 +81,30 @@ namespace HowItWorks.Reflection
 			this.PopulateCollection<TDocumentation, TReflection>(collection, reflectionMethod, y => true);
 		}
 		
-		protected void PopulateCollection<TDocumentation, TReflection>(Collection<TDocumentation> collection, Func<T, TReflection[]> reflectionMethod, Predicate<TReflection> elementFilter) where TDocumentation : DocumentationBase<TReflection>, new() where TReflection : class
+		
+		
+		/// <summary>
+		/// Populate a collection of documentations based on
+		/// a call to a reflection method.
+		/// </summary>
+		/// <param name="collection">
+		/// The collection to populate
+		/// </param>
+		/// <param name="reflectionMethod">
+		/// Reflection method.
+		/// </param>
+		/// <param name="doIncludeElementPredicate">
+		/// A predicate that determines whether a given
+		/// <typeparamref name="TReflection"/> element should
+		/// be included in the collection
+		/// </param>
+		/// <typeparam name="TDocumentation">
+		/// The documentation element type
+		/// </typeparam>
+		/// <typeparam name="TReflection">
+		/// The reflection type returned from the reflection method
+		/// </typeparam>
+		protected void PopulateCollection<TDocumentation, TReflection>(Collection<TDocumentation> collection, Func<T, TReflection[]> reflectionMethod, Predicate<TReflection> doIncludeElementPredicate) where TDocumentation : DocumentationBase<TReflection>, new() where TReflection : class
 		{
 			collection.Clear();
 			
@@ -90,7 +113,7 @@ namespace HowItWorks.Reflection
 			TDocumentation tmp;
 			foreach (TReflection cur in infos)
 			{
-				if (elementFilter(cur))
+				if (doIncludeElementPredicate(cur))
 				{
 					tmp = new TDocumentation();
 					tmp.Populate(cur);
