@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace HowItWorks.Reflection
 {
@@ -6,6 +7,9 @@ namespace HowItWorks.Reflection
 	{
 		public TypeDocumentation() : base()
 		{
+			this.Constructors = new ConstructorDocumentationCollection();
+			this.Methods = new MethodDocumentationCollection();
+			this.Properties = new PropertyDocumentationCollection();
 		}
 
 		public string Name
@@ -27,11 +31,29 @@ namespace HowItWorks.Reflection
 		public MethodDocumentationCollection Methods { get; set; }
 		public PropertyDocumentationCollection Properties { get; set; }
 		
-		protected override void FromFrameworkTypeWorker()
+		protected override void PopulateWorker()
 		{
-			// update this.Constructors
+			this.PopulateConstructors();
+			
 			// update this.Methods
 			// update this.Properties
+		}
+		
+		private void PopulateConstructors()
+		{
+			this.Constructors.Clear();
+			
+			ConstructorInfo[] infos = base.WrappedElement.GetConstructors();
+			
+			ConstructorDocumentation tmp;
+			
+			foreach (ConstructorInfo cur in infos)
+			{
+				tmp = new ConstructorDocumentation();
+				tmp.Populate(cur);
+				
+				this.Constructors.Add(tmp);
+			}
 		}
 	}
 }

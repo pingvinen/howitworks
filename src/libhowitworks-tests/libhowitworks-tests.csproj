@@ -7,7 +7,6 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4AA47D71-2784-4636-962E-FA7B64B01F9F}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>libhowitworkstests</RootNamespace>
     <AssemblyName>libhowitworks-tests</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -33,10 +32,14 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\resources\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Missing">
+      <HintPath>..\resources\Missing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Reflection\ConstructorDocumentationTests.cs" />
+    <Compile Include="Reflection\TypeDocumentationTests.cs" />
+    <Compile Include="TestFixtureBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

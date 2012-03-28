@@ -15,13 +15,13 @@ namespace HowItWorks.Reflection
 		
 		public T WrappedElement { get; protected set; }
 		
-		public void FromFrameworkType(T input)
+		public void Populate(T input)
 		{
 			this.WrappedElement = input;
-			this.FromFrameworkTypeWorker();
+			this.PopulateWorker();
 		}
 		
-		protected virtual void FromFrameworkTypeWorker()
+		protected virtual void PopulateWorker()
 		{
 			// do nothing
 		}
