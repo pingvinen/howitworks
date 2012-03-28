@@ -67,13 +67,21 @@ public class TypeDocumentationTests : TestFixtureBase
 		TypeDocumentation doc = new TypeDocumentation();
 		doc.Populate(t);
 		
-		Assert.AreEqual(1, doc.Methods.Count, "Number of methods is wrong");
+		
+		/*
+		 * DidSomething   <-- this is the one we are looking for
+		 * Equals
+		 * GetHashCode
+		 * GetType
+		 * ToString
+		 */
+		
+		Assert.AreEqual(1+4, doc.Methods.Count, "Number of methods is wrong");
 		MethodDocumentation method = doc.Methods[0];
 		
 		Assert.IsTrue(method.WrappedElement.IsPublic, "The wrapped element should be a public method");
 		Assert.AreEqual(1, method.Parameters.Count, "The method should take 1 parameter");
-		
-		Assert.AreEqual("DidSomething", method.Parameters[0].WrappedElement.Name, "Name of the method is wrong");
+		Assert.AreEqual("DidSomething", method.WrappedElement.Name, "Name of the method is wrong");
 	}
 	#endregion
 }

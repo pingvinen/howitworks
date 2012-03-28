@@ -63,9 +63,21 @@ namespace HowItWorks.Reflection
 		/// </summary>
 		protected override void PopulateWorker()
 		{
-			base.PopulateCollection<ConstructorDocumentation, ConstructorInfo>(this.Constructors, y => y.GetConstructors());
-			base.PopulateCollection<MethodDocumentation, MethodInfo>(this.Methods, y => y.GetMethods());
-			base.PopulateCollection<PropertyDocumentation, PropertyInfo>(this.Properties, y => y.GetProperties());
+			base.PopulateCollection<ConstructorDocumentation, ConstructorInfo>(
+				this.Constructors,
+				y => y.GetConstructors()
+			);
+			
+			base.PopulateCollection<MethodDocumentation, MethodInfo>(
+				this.Methods,
+				y => y.GetMethods(),
+				y => !y.IsConstructor && !y.Name.StartsWith("set_") && !y.Name.StartsWith("get_")
+			);
+			
+			base.PopulateCollection<PropertyDocumentation, PropertyInfo>(
+				this.Properties,
+				y => y.GetProperties()
+			);
 		}
 	}
 }
