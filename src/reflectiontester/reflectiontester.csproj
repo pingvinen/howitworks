@@ -30,10 +30,19 @@
     <Reference Include="Missing">
       <HintPath>..\resources\Missing.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\resources\Mono.Cecil.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\libhowitworks-tests-input\libhowitworks-tests-input.csproj">
+      <Project>{7CD35374-C96B-42E6-8483-44E063989E4C}</Project>
+      <Name>libhowitworks-tests-input</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

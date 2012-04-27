@@ -37,6 +37,9 @@
     <Reference Include="Missing">
       <HintPath>..\resources\Missing.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\resources\Mono.Cecil.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -54,6 +57,7 @@
     <Compile Include="Reflection\ParameterDocumentationCollection.cs" />
     <Compile Include="Reflection\MethodDocumentationCollection.cs" />
     <Compile Include="Reflection\TypeDocumentationCollection.cs" />
+    <Compile Include="Reflection\CecilHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

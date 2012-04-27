@@ -1,13 +1,13 @@
 using System;
-using System.Reflection;
 using System.Linq;
+using Mono.Cecil;
 
 namespace HowItWorks.Reflection
 {
 	/// <summary>
-	/// Documentation wrapper for <see cref="System.Type"/>
+	/// Documentation wrapper for <see cref="Mono.Cecil.TypeDefinition"/>
 	/// </summary>
-	public class TypeDocumentation : DocumentationBase<Type>
+	public class TypeDocumentation : DocumentationBase<TypeDefinition>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="HowItWorks.Reflection.TypeDocumentation"/> class.
@@ -63,20 +63,21 @@ namespace HowItWorks.Reflection
 		/// </summary>
 		protected override void PopulateWorker()
 		{
-			base.PopulateCollection<ConstructorDocumentation, ConstructorInfo>(
-				this.Constructors,
-				y => y.GetConstructors()
-			);
+			base.PopulateCollectionTwo<ConstructorDocumentation, MethodDefinition>(
+					this.Constructors,
+					y => y.Methods,
+					y => y.IsConstructor
+				);
 			
-			base.PopulateCollection<MethodDocumentation, MethodInfo>(
+			base.PopulateCollectionTwo<MethodDocumentation, MethodDefinition>(
 				this.Methods,
-				y => y.GetMethods(),
-				y => !y.IsConstructor && !y.Name.StartsWith("set_") && !y.Name.StartsWith("get_")
+				y => y.Methods,
+				y => !y.IsConstructor && !y.IsSetter && !y.IsGetter
 			);
 			
-			base.PopulateCollection<PropertyDocumentation, PropertyInfo>(
+			base.PopulateCollectionTwo<PropertyDocumentation, PropertyDefinition>(
 				this.Properties,
-				y => y.GetProperties()
+				y => y.Properties
 			);
 		}
 	}

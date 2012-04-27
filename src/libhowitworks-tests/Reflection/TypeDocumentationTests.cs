@@ -2,6 +2,8 @@ using System;
 using NUnit.Framework;
 using HowItWorks.Reflection;
 using Missing.Reflection;
+using Mono.Cecil;
+using System.Linq;
 
 [TestFixture]
 public class TypeDocumentationTests : TestFixtureBase
@@ -29,7 +31,7 @@ public class TypeDocumentationTests : TestFixtureBase
 	[Test]
 	public void Populate_Simple()
 	{
-		Type t = TypeHelper.GetType(this.karma);
+		TypeDefinition t = CecilHelper.GetType(this.karma);
 		
 		TypeDocumentation doc = new TypeDocumentation();
 		doc.Populate(t);
@@ -42,15 +44,15 @@ public class TypeDocumentationTests : TestFixtureBase
 	[Test]
 	public void Populate_OneConstructor()
 	{
-		Type t = TypeHelper.GetType(this.karma);
-		
+		TypeDefinition t = CecilHelper.GetType(this.karma);
+
 		TypeDocumentation doc = new TypeDocumentation();
 		doc.Populate(t);
 		
 		Assert.AreEqual(1, doc.Constructors.Count, "Number of constructors is wrong");
 		Assert.IsTrue(doc.Constructors[0].WrappedElement.IsConstructor, "The wrapped element should be a constructor");
 		
-		Assert.IsEmpty(doc.Constructors[0].WrappedElement.GetParameters(), "The constructor should not take any parameters");
+		Assert.IsEmpty(doc.Constructors[0].WrappedElement.Parameters, "The constructor should not take any parameters");
 	}
 	
 	[Ignore]
@@ -62,21 +64,12 @@ public class TypeDocumentationTests : TestFixtureBase
 	[Test]
 	public void Populate_Methods()
 	{
-		Type t = TypeHelper.GetType(this.karma);
+		TypeDefinition t = CecilHelper.GetType(this.karma);
 		
 		TypeDocumentation doc = new TypeDocumentation();
 		doc.Populate(t);
 		
-		
-		/*
-		 * DidSomething   <-- this is the one we are looking for
-		 * Equals
-		 * GetHashCode
-		 * GetType
-		 * ToString
-		 */
-		
-		Assert.AreEqual(1+4, doc.Methods.Count, "Number of methods is wrong");
+		Assert.AreEqual(1, doc.Methods.Count, "Number of methods is wrong");
 		MethodDocumentation method = doc.Methods[0];
 		
 		Assert.IsTrue(method.WrappedElement.IsPublic, "The wrapped element should be a public method");

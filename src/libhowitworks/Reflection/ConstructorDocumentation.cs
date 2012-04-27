@@ -1,12 +1,12 @@
 using System;
-using System.Reflection;
+using Mono.Cecil;
 
 namespace HowItWorks.Reflection
 {
 	/// <summary>
-	/// Documentation wrapper for <see cref="System.Reflection.ConstructorInfo"/>
+	/// Documentation wrapper for <see cref="Mono.Cecil.MethodDefinition"/>
 	/// </summary>
-	public class ConstructorDocumentation : DocumentationBase<ConstructorInfo>
+	public class ConstructorDocumentation : DocumentationBase<MethodDefinition>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="HowItWorks.Reflection.ConstructorDocumentation"/> class.

@@ -1,12 +1,13 @@
 using System;
-using System.Reflection;
+using Mono.Cecil;
+using Mono.Collections.Generic;
 
 namespace HowItWorks.Reflection
 {
 	/// <summary>
-	/// Documentation wrapper for <see cref="System.Reflection.MethodInfo"/>
+	/// Documentation wrapper for <see cref="Mono.Cecil.MethodDefinition"/>
 	/// </summary>
-	public class MethodDocumentation : DocumentationBase<MethodInfo>
+	public class MethodDocumentation : DocumentationBase<MethodDefinition>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="HowItWorks.Reflection.MethodDocumentation"/> class.
@@ -28,10 +29,10 @@ namespace HowItWorks.Reflection
 		{
 			this.Parameters.Clear();
 			
-			ParameterInfo[] infos = base.WrappedElement.GetParameters();
+			Collection<ParameterDefinition> infos = base.WrappedElement.Parameters;
 			
 			ParameterDocumentation tmp;
-			foreach (ParameterInfo cur in infos)
+			foreach (ParameterDefinition cur in infos)
 			{
 				tmp = new ParameterDocumentation();
 				tmp.Populate(cur);

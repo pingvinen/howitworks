@@ -1,5 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
+using Missing.Reflection;
+using System.Linq.Expressions;
 
 namespace HowItWorks.Reflection
 {
@@ -76,7 +78,7 @@ namespace HowItWorks.Reflection
 		/// <typeparam name="TReflection">
 		/// The reflection type returned from the reflection method
 		/// </typeparam>
-		protected void PopulateCollection<TDocumentation, TReflection>(Collection<TDocumentation> collection, Func<T, TReflection[]> reflectionMethod) where TDocumentation : DocumentationBase<TReflection>, new() where TReflection : class
+		protected void PopulateCollection<TDocumentation, TReflection>(Collection<TDocumentation> collection, Func<T, Mono.Collections.Generic.Collection<TReflection>> reflectionMethod) where TDocumentation : DocumentationBase<TReflection>, new() where TReflection : class
 		{
 			this.PopulateCollection<TDocumentation, TReflection>(collection, reflectionMethod, y => true);
 		}
@@ -104,11 +106,48 @@ namespace HowItWorks.Reflection
 		/// <typeparam name="TReflection">
 		/// The reflection type returned from the reflection method
 		/// </typeparam>
-		protected void PopulateCollection<TDocumentation, TReflection>(Collection<TDocumentation> collection, Func<T, TReflection[]> reflectionMethod, Predicate<TReflection> doIncludeElementPredicate) where TDocumentation : DocumentationBase<TReflection>, new() where TReflection : class
+		protected void PopulateCollection<TDocumentation, TReflection>(Collection<TDocumentation> collection, Func<T, Mono.Collections.Generic.Collection<TReflection>> reflectionMethod, Predicate<TReflection> doIncludeElementPredicate) where TDocumentation : DocumentationBase<TReflection>, new() where TReflection : class
 		{
 			collection.Clear();
 			
-			TReflection[] infos = reflectionMethod(this.WrappedElement);
+			Mono.Collections.Generic.Collection<TReflection> infos = reflectionMethod(this.WrappedElement);
+			
+			TDocumentation tmp;
+			foreach (TReflection cur in infos)
+			{
+				if (doIncludeElementPredicate(cur))
+				{
+					tmp = new TDocumentation();
+					tmp.Populate(cur);
+					
+					collection.Add(tmp);
+				}
+			}
+		}
+		
+		protected void PopulateCollectionTwo<TDocumentation, TReflection>(
+			Collection<TDocumentation> collection,
+			Expression<Func<T, object>> memberExpression
+		)
+			where TDocumentation : DocumentationBase<TReflection>, new()
+			where TReflection : class
+		{
+			this.PopulateCollectionTwo<TDocumentation, TReflection>(collection, memberExpression, y => true);
+		}
+		
+		protected void PopulateCollectionTwo<TDocumentation, TReflection>(
+			Collection<TDocumentation> collection,
+			Expression<Func<T, object>> memberExpression,
+			Predicate<TReflection> doIncludeElementPredicate
+		)
+			where TDocumentation : DocumentationBase<TReflection>, new()
+			where TReflection : class
+		{
+			collection.Clear();
+			
+			PropertyPath path = PropertyPath.From<T>(memberExpression);
+			
+			Mono.Collections.Generic.Collection<TReflection> infos = (Mono.Collections.Generic.Collection<TReflection>)TypeHelper.GetPropertyData(this.WrappedElement, path).Value;
 			
 			TDocumentation tmp;
 			foreach (TReflection cur in infos)
